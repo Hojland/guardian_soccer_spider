@@ -1,4 +1,4 @@
- FROM python:3.8-slim
+FROM python:3.8-slim
 
 ARG PROD_ENV
 ARG DEBIAN_FRONTEND=noninteractive
@@ -35,7 +35,7 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock /app/ 
 
-RUN poetry install --no-interaction --no-ansi
+RUN poetry install $(if [ $PROD_ENV = "production" ]; then echo --no-dev; fi) --no-interaction --no-ansi
 
 COPY matchreports /app/matchreports
 
