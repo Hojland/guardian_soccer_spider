@@ -11,7 +11,8 @@ pandas = "^1.1.4"
 numpy = "^1.19.4"
 pydantic = "^1.7.2"
 python-dotenv = "^0.15.0"
-scrapy = "^2.4.1"
+scrapy = "^2.2.1"
+scrapy-useragents = "^0.0.1"
 boto3 = "^1.17.44"
 
 [tool.poetry.dev-dependencies]

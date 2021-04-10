@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.8
 
 ARG PROD_ENV
 ARG DEBIAN_FRONTEND=noninteractive
@@ -11,7 +11,6 @@ ENV PROD_ENV=${PROD_ENV} \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
     POETRY_VERSION=1.0.0 \
-    COMMIT_HASH=$commit_hash \
     PYTHONPATH=/app/src 
 
 
@@ -38,6 +37,6 @@ COPY pyproject.toml poetry.lock /app/
 
 RUN poetry install $(if [ $PROD_ENV = "production" ]; then echo --no-dev; fi) --no-interaction --no-ansi
 
-COPY src /app/src
+COPY matchreports /app/matchreports
 
-ENTRYPOINT ["python3 src/spider.py"]
+ENTRYPOINT ["scrapy crawl guardian-match-reports"]

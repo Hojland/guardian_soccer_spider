@@ -3,3 +3,5 @@
 .venv
 data
 .python-version
+*.jl
+*.pyc
