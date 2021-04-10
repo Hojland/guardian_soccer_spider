@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     locales \
     python3-dev \
     python3-pip \
+    libffi-dev  \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
 
 
