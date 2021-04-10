@@ -81,7 +81,7 @@ jobs:
         run: |
           IMAGE_ID=docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}
           IMAGE_ID_LATEST=docker.pkg.github.com/${{ github.repository }}/${APPLICATION_NAME}:latest
-          docker build -t ${IMAGE_ID} -f Dockerfile --build_arg env=production .
+          docker build -t ${IMAGE_ID} --build-arg env=production -f Dockerfile . 
           docker push ${IMAGE_ID}
           docker tag ${IMAGE_ID} ${IMAGE_ID_LATEST}
           docker push ${IMAGE_ID_LATEST}
