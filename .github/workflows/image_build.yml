@@ -72,10 +72,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - id: repo_string
+        uses: ASzc/change-string-case-action@v1
+        with:
+          string: ${{ github.repository }}
       - name: Build and push
         id: docker_build
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}
+          IMAGE_ID=docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}
           IMAGE_ID_LATEST=docker.pkg.github.com/${{ github.repository }}/${APPLICATION_NAME}:latest
           docker build -t ${IMAGE_ID} -f Dockerfile --build_arg env=production .
           docker push ${IMAGE_ID}
