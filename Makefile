@@ -11,8 +11,6 @@ build_local:
 	docker build -t ${image_name}:latest --build-arg PROD_ENV=$(env) -f Dockerfile .
 
 start_spider:
-	make docker_login
-
 	docker run \
 		-d \
 		-it \
