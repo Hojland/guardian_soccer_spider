@@ -101,6 +101,8 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
+        with:
+          driver: docker
       - name: Builder instance name
         run: echo ${{ steps.buildx.outputs.name }}
       - name: Available platforms
@@ -114,8 +116,14 @@ jobs:
           context: .
           platforms: linux/arm/v7,linux/arm64
           build-args: "PROD_ENV=production"
-          push: true
+          load: true
           tags: ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7,${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
+      - name: Log into registry again
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - name: Push to github packages
+        run: |
+          docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7
+          docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
       - name: Retag to latest - arm64, armv7
         run: |
           docker pull ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7
