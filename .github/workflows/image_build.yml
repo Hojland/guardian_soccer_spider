@@ -112,22 +112,26 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          platforms: linux/arm/v7,linux/arm64
+          platforms: linux/arm32v7 #linux/arm/v7,linux/arm64,
           build-args: "PROD_ENV=production"
           push: true
-          tags: ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7,${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
+          tags: ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm32v7 #,${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
       - name: Log into registry again
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       - name: Push to github packages
         run: |
-          docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7
-          docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
-      - name: Retag to latest - arm64, armv7
+          docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm32v7
+      #          docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
+      - name: Retag to latest - arm32v7
         run: |
-          docker pull ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7
-          docker tag ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7 ${{ steps.vars.outputs.docker_name }}:latest-armv7
-          docker push ${{ steps.vars.outputs.docker_name }}:latest-armv7
+          docker pull ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm32v7
+          docker tag ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm32v7 ${{ steps.vars.outputs.docker_name }}:latest-arm32v7
+          docker push ${{ steps.vars.outputs.docker_name }}:latest-arm32v7
 
-          docker pull ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
-          docker tag ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64 ${{ steps.vars.outputs.docker_name }}:latest-arm64
-          docker push ${{ steps.vars.outputs.docker_name }}:latest-arm64
+#          docker pull ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7
+#          docker tag ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7 ${{ steps.vars.outputs.docker_name }}:latest-armv7
+#          docker push ${{ steps.vars.outputs.docker_name }}:latest-armv7
+
+#          docker pull ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
+#          docker tag ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64 ${{ steps.vars.outputs.docker_name }}:latest-arm64
+#          docker push ${{ steps.vars.outputs.docker_name }}:latest-arm64
