@@ -13,7 +13,6 @@ ENV PROD_ENV=${PROD_ENV} \
     POETRY_VERSION=1.0.0 \
     PYTHONPATH=/app/src 
 
-
 RUN apt-get update && apt-get install -y \
     curl \
     gcc \
@@ -25,6 +24,8 @@ RUN apt-get update && apt-get install -y \
     libffi-dev  \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
 
+# install rust compiler for cryptography
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # install poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python3 && \
@@ -40,4 +41,4 @@ RUN poetry install $(if [ $PROD_ENV = "production" ]; then echo --no-dev; fi) --
 
 COPY matchreports /app/matchreports
 
-ENTRYPOINT ["scrapy crawl guardian-match-reports"]
+ENTRYPOINT ["/bin/sh", "-c", "scrapy crawl"]
