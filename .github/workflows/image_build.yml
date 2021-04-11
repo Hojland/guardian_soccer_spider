@@ -89,6 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_TARGET_PLATFORM: linux/arm/v7,linux/arm64
+      TAGS: docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}-armv7,docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}-arm64
     needs: [tag_and_release]
     steps:
       - name: Checkout
@@ -103,11 +104,10 @@ jobs:
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
       - name: Build and push
-        id: docker_build
-        run: |
-          IMAGE_ID=docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}-arm64
-          IMAGE_ID_LATEST=docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:latest-arm64
-          docker buildx build --platform ${DOCKER_TARGET_PLATFORM} -t ${IMAGE_ID} --build-arg env=production -f Dockerfile . 
-          docker push ${IMAGE_ID}
-          docker tag ${IMAGE_ID} ${IMAGE_ID_LATEST}
-          docker push ${IMAGE_ID_LATEST}
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: DOCKER_TARGET_PLATFORM
+          build-args: "env=production"
+          push: true
+          tags: docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}
