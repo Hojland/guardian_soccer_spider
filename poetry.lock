@@ -630,18 +630,6 @@ w3lib = ">=1.17.0"
 "zope.interface" = ">=4.1.3"
 
 [[package]]
-name = "scrapy-useragents"
-version = "0.0.1"
-description = "A middleware to change user-agent in request for Scrapy"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-PyPyDispatcher = {version = ">=2.1.0", markers = "platform_python_implementation == \"PyPy\""}
-scrapy = ">=1.4.0"
-
-[[package]]
 name = "service-identity"
 version = "18.1.0"
 description = "Service identity verification for pyOpenSSL & cryptography."
@@ -772,7 +760,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "ff8bfd01ca175ecd59bcd611d24aebfb4aad8fc80b33c8e0143cf300eca6f704"
+content-hash = "2839bae7b5d5b1fd4f913a53d5d7cdf1e8c2afbbe7a01c6aa07151ff3094787b"
 
 [metadata.files]
 appdirs = [
@@ -1246,10 +1234,6 @@ s3transfer = [
 scrapy = [
     {file = "Scrapy-2.2.0-py2.py3-none-any.whl", hash = "sha256:e6b724ef3d522bbce93bede7af18d1603b57cefcf589337b0f4c5b15ea0a5f29"},
     {file = "Scrapy-2.2.0.tar.gz", hash = "sha256:8ce036a113ef9bc575a65b463994244e4298145f70bcdcf40b8847a2f528a1fb"},
-]
-scrapy-useragents = [
-    {file = "Scrapy-UserAgents-0.0.1.tar.gz", hash = "sha256:caa6d5b3bdbddcd79678caad3bae5d5cd0f3a96144807acf491925795e75c44e"},
-    {file = "Scrapy_UserAgents-0.0.1-py2.py3-none-any.whl", hash = "sha256:316ef88068aa5107591e97c9d04a75effc2600914ac7198bbed52a1c65a4434c"},
 ]
 service-identity = [
     {file = "service_identity-18.1.0-py2.py3-none-any.whl", hash = "sha256:001c0707759cb3de7e49c078a7c0c9cd12594161d3bf06b9c254fdcb1a60dc36"},
