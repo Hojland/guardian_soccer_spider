@@ -40,7 +40,7 @@ start_spider_arm:
 		-v ${PWD}/matchreports/.scrapy:/app/matchreports/.scrapy \
 		--name ${CUR_DIR} \
 		--env-file .env \
-		${image_name}:latest-arm64 \
+		${image_name}:latest-armv7 \
 		"scrapy crawl guardian-match-reports"
 
 insert_crontab:

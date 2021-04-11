@@ -92,8 +92,13 @@ jobs:
       TAGS: docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}-armv7,docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}-arm64
     needs: [tag_and_release]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      - id: repo_string
+        uses: ASzc/change-string-case-action@v1
+        with:
+          string: ${{ github.repository }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -110,4 +115,18 @@ jobs:
           platforms: DOCKER_TARGET_PLATFORM
           build-args: "env=production"
           push: true
-          tags: docker.pkg.github.com/${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}:${{needs.tag_and_release.outputs.release_tag}}
+          tags: TAGS
+      - name: Retag to latest - arm64
+        uses: ybrin/retag-docker-image@0.1.0
+        with:
+          registry: docker login docker.pkg.github.com
+          name: ${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}
+          old_tag: ${{needs.tag_and_release.outputs.release_tag}}-arm64
+          new_tag: latest-arm64
+      - name: Retag to latest - armv7
+        uses: ybrin/retag-docker-image@0.1.0
+        with:
+          registry: docker login docker.pkg.github.com
+          name: ${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}
+          old_tag: ${{needs.tag_and_release.outputs.release_tag}}-armv7
+          new_tag: latest-armv7
