@@ -18,6 +18,9 @@ test_spider:
 build_local:
 	docker build -t ${image_name}:latest --build-arg PROD_ENV=$(env) -f Dockerfile .
 
+build_arm:
+	docker buildx build --platform linux/arm64 -t ${image_name}:latest-arm64 --build-arg PROD_ENV=$(env) -f Dockerfile .
+
 start_spider:
 	make docker_login
 	docker run \
@@ -27,6 +30,17 @@ start_spider:
 		--name ${CUR_DIR} \
 		--env-file .env \
 		${image_name}:latest \
+		"scrapy crawl guardian-match-reports"
+
+start_spider_arm:
+	make docker_login
+	docker run \
+		-d \
+		-it \
+		-v ${PWD}/matchreports/.scrapy:/app/matchreports/.scrapy \
+		--name ${CUR_DIR} \
+		--env-file .env \
+		${image_name}:latest-arm64 \
 		"scrapy crawl guardian-match-reports"
 
 insert_crontab:
