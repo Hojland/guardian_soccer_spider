@@ -118,17 +118,12 @@ jobs:
           build-args: "PROD_ENV=production"
           push: true
           tags: ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7,${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
-      - name: Retag to latest - arm64
-        uses: ybrin/retag-docker-image@0.1.0
-        with:
-          registry: docker login docker.pkg.github.com
-          name: ${{ steps.vars.outputs.docker_name }}
-          old_tag: ${{needs.tag_and_release.outputs.release_tag}}-arm64
-          new_tag: latest-arm64
-      - name: Retag to latest - armv7
-        uses: ybrin/retag-docker-image@0.1.0
-        with:
-          registry: docker login docker.pkg.github.com
-          name: ${{ steps.vars.outputs.docker_name }}
-          old_tag: ${{needs.tag_and_release.outputs.release_tag}}-armv7
-          new_tag: latest-armv7
+      - name: Retag to latest - arm64, armv7
+        run: |
+          docker pull ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7
+          docker tag ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7 ${{ steps.vars.outputs.docker_name }}:latest-armv7
+          docker push ${{ steps.vars.outputs.docker_name }}:latest-armv7
+
+          docker pull ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
+          docker tag ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64 ${{ steps.vars.outputs.docker_name }}:latest-arm64
+          docker push ${{ steps.vars.outputs.docker_name }}:latest-arm64
