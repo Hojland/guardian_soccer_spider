@@ -2,6 +2,7 @@ FROM python:3.8-slim
 
 ARG PROD_ENV
 ARG DEBIAN_FRONTEND=noninteractive
+ARG TARGETPLATFORM
 
 ENV PROD_ENV=${PROD_ENV} \
     PYTHONFAULTHANDLER=1 \
@@ -19,8 +20,16 @@ RUN apt-get update && apt-get install -y \
     locales \
     python3-dev \
     python3-pip \
-    libffi-dev  \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
+
+RUN if [ "${TARGETPLATFORM}" = "linux/arm/v7" ]; then \
+    apt-get update && apt-get install -y \
+    libxml2-dev \
+    libxslt-dev \
+    libssl-dev \
+    libffi-dev \
+    cargo \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/* ; fi
 
 # install rust compiler for cryptography
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y

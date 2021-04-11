@@ -19,7 +19,7 @@ build_local:
 	docker build -t ${image_name}:latest --build-arg PROD_ENV=$(env) -f Dockerfile .
 
 build_arm:
-	docker buildx build --platform linux/arm64 -t ${image_name}:latest-arm64 --build-arg PROD_ENV=$(env) -f Dockerfile .
+	docker buildx build --platform linux/arm/v7 -t ${image_name}:latest-armv7 --build-arg PROD_ENV=$(env) -f Dockerfile .
 
 start_spider:
 	make docker_login
