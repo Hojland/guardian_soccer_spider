@@ -29,6 +29,7 @@ RUN if [ "${TARGETPLATFORM}" = "linux/arm/v7" ]; then \
     libssl-dev \
     libffi-dev \
     zlib1g-dev \
+    build-essential \
     cargo \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* ; fi
 
