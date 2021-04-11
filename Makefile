@@ -26,7 +26,8 @@ start_spider:
 		-v ${PWD}/matchreports/.scrapy:/app/matchreports/.scrapy \
 		--name ${CUR_DIR} \
 		--env-file .env \
-		${image_name}:latest 
+		${image_name}:latest \
+		"scrapy crawl guardian-match-reports"
 
 insert_crontab:
 	$(eval CRONJOB=0 18 * * * cd ${PWD} && make start_spider)

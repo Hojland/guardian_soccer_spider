@@ -9,9 +9,7 @@ ENV PROD_ENV=${PROD_ENV} \
     PYTHONHASHSEED=random \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.0.0 \
-    PYTHONPATH=/app/src 
+    PIP_DEFAULT_TIMEOUT=100 
 
 RUN apt-get update && apt-get install -y \
     curl \
@@ -41,4 +39,6 @@ RUN poetry install $(if [ $PROD_ENV = "production" ]; then echo --no-dev; fi) --
 
 COPY matchreports /app/matchreports
 
-ENTRYPOINT ["/bin/sh", "-c", "scrapy crawl"]
+WORKDIR /app/matchreports
+
+ENTRYPOINT ["/bin/sh", "-c"]

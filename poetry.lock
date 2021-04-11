@@ -252,6 +252,20 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "itemloaders"
+version = "1.0.4"
+description = "Base library for scrapy's ItemLoader"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+itemadapter = ">=0.1.0"
+jmespath = ">=0.9.5"
+parsel = ">=1.5.0"
+w3lib = ">=1.17.0"
+
+[[package]]
 name = "jmespath"
 version = "0.10.0"
 description = "JSON Matching Expressions"
@@ -557,6 +571,14 @@ python-versions = "*"
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "pytz"
+version = "2021.1"
+description = "World timezone definitions, modern and historical"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "queuelib"
 version = "1.5.0"
 description = "Collection of persistent (disk-based) queues"
@@ -606,6 +628,18 @@ service-identity = ">=16.0.0"
 Twisted = ">=17.9.0"
 w3lib = ">=1.17.0"
 "zope.interface" = ">=4.1.3"
+
+[[package]]
+name = "scrapy-useragents"
+version = "0.0.1"
+description = "A middleware to change user-agent in request for Scrapy"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+PyPyDispatcher = {version = ">=2.1.0", markers = "platform_python_implementation == \"PyPy\""}
+scrapy = ">=1.4.0"
 
 [[package]]
 name = "service-identity"
@@ -738,7 +772,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "009ce32ae5fa4bcdd40bbfaa4062be56dfac2165924470f29758d49c23aea7e5"
+content-hash = "9b226c0194253e2bea824e5f580ba9e0700e7f130b38ee999eb9bbc2346eabbe"
 
 [metadata.files]
 appdirs = [
@@ -921,6 +955,10 @@ isort = [
 itemadapter = [
     {file = "itemadapter-0.2.0-py3-none-any.whl", hash = "sha256:5327c2136353cb965b6b4ba564af002fd458691b8e30d3bd6b14c474d92c6b25"},
     {file = "itemadapter-0.2.0.tar.gz", hash = "sha256:cb7aaa577fefe2aa6f229ccf4d058e05f44e0178a98c8fb70ee4d95acfabb423"},
+]
+itemloaders = [
+    {file = "itemloaders-1.0.4-py3-none-any.whl", hash = "sha256:4cb46a0f8915e910c770242ae3b60b1149913ed37162804f1e40e8535d6ec497"},
+    {file = "itemloaders-1.0.4.tar.gz", hash = "sha256:1277cd8ca3e4c02dcdfbc1bcae9134ad89acfa6041bd15b4561c6290203a0c96"},
 ]
 jmespath = [
     {file = "jmespath-0.10.0-py2.py3-none-any.whl", hash = "sha256:cdf6525904cc597730141d61b36f2e4b8ecc257c420fa2f4549bac2c2d0cb72f"},
@@ -1141,6 +1179,10 @@ python-dotenv = [
     {file = "python-dotenv-0.15.0.tar.gz", hash = "sha256:587825ed60b1711daea4832cf37524dfd404325b7db5e25ebe88c495c9f807a0"},
     {file = "python_dotenv-0.15.0-py2.py3-none-any.whl", hash = "sha256:0c8d1b80d1a1e91717ea7d526178e3882732420b03f08afea0406db6402e220e"},
 ]
+pytz = [
+    {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
+    {file = "pytz-2021.1.tar.gz", hash = "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da"},
+]
 queuelib = [
     {file = "queuelib-1.5.0-py2.py3-none-any.whl", hash = "sha256:ff43b5b74b9266f8df4232a8f768dc4d67281a271905e2ed4a3689d4d304cd02"},
     {file = "queuelib-1.5.0.tar.gz", hash = "sha256:42b413295551bdc24ed9376c1a2cd7d0b1b0fa4746b77b27ca2b797a276a1a17"},
@@ -1195,6 +1237,10 @@ s3transfer = [
 scrapy = [
     {file = "Scrapy-2.2.0-py2.py3-none-any.whl", hash = "sha256:e6b724ef3d522bbce93bede7af18d1603b57cefcf589337b0f4c5b15ea0a5f29"},
     {file = "Scrapy-2.2.0.tar.gz", hash = "sha256:8ce036a113ef9bc575a65b463994244e4298145f70bcdcf40b8847a2f528a1fb"},
+]
+scrapy-useragents = [
+    {file = "Scrapy-UserAgents-0.0.1.tar.gz", hash = "sha256:caa6d5b3bdbddcd79678caad3bae5d5cd0f3a96144807acf491925795e75c44e"},
+    {file = "Scrapy_UserAgents-0.0.1-py2.py3-none-any.whl", hash = "sha256:316ef88068aa5107591e97c9d04a75effc2600914ac7198bbed52a1c65a4434c"},
 ]
 service-identity = [
     {file = "service_identity-18.1.0-py2.py3-none-any.whl", hash = "sha256:001c0707759cb3de7e49c078a7c0c9cd12594161d3bf06b9c254fdcb1a60dc36"},
