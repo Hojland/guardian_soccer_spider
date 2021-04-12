@@ -108,26 +108,14 @@ jobs:
       - name: Set tag var
         id: vars
         run: echo ::set-output name=docker_name::${{ steps.repo_string.outputs.lowercase }}/${APPLICATION_NAME}
-      #      - name: Build and push
-      #        uses: docker/build-push-action@v2
-      #        with:
-      #          context: .
-      #          platforms: linux/arm/v7,linux/arm64
-      #          build-args: "PROD_ENV=production"
-      #          push: true
-      #          tags: ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7,${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
-      - name: Log into registry again
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-      - name: Build armv7
-        run: |
-          docker buildx build --platform linux/arm/v7 --load -t ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7 --build-arg PROD_ENV=production -f Dockerfile .
-      - name: Push to github packages
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7
-          docker buildx build --platform linux/arm/v7 --load -t ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64--build-arg PROD_ENV=production -f Dockerfile .
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-          docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/arm/v7,linux/arm64
+          build-args: "PROD_ENV=production"
+          push: true
+          tags: ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7,${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64
       - name: Log into registry again
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       - name: Retag to latest - arm64, armv7
