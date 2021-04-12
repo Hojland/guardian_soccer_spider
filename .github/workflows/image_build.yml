@@ -122,6 +122,7 @@ jobs:
         run: |
           docker buildx build --platform linux/arm/v7 --load -t ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7 --build-arg PROD_ENV=production -f Dockerfile .
       - name: Push to github packages
+        run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
           docker push ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-armv7
           docker buildx build --platform linux/arm/v7 --load -t ${{ steps.vars.outputs.docker_name }}:${{needs.tag_and_release.outputs.release_tag}}-arm64--build-arg PROD_ENV=production -f Dockerfile .
